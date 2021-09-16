@@ -19,6 +19,15 @@ class IllustrationRepository extends ServiceEntityRepository
         parent::__construct($registry, Illustration::class);
     }
 
+    public function findAllForReact()
+    {
+        $output = $this->findAll();
+        foreach ($output as $index => $image) {
+            $output[$index] = $image->reactBindOutput();
+        }
+        return $output;
+    }
+
     // /**
     //  * @return Illustration[] Returns an array of Illustration objects
     //  */

@@ -73,4 +73,13 @@ class Illustration
 
         return $this;
     }
+
+    public function reactBindOutput()
+    {
+        $output = [];
+        foreach ($this as $key => $value) {
+            $output[$key] = $value;
+        }
+        return $output;
+    }
 }

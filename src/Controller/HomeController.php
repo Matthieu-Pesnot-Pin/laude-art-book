@@ -23,9 +23,13 @@ class HomeController extends AbstractController
      */
     public function index(): Response
     {
-        $listeImages = $this->entityManager->getRepository(Illustration::class)->findAll();
+        $listeImages = $this->entityManager->getRepository(Illustration::class)->findAllForReact();
+
         return $this->render('home/index.html.twig', [
-            'listeImages' => $listeImages,
+            "reactRoute" => "book",
+            'dataFromController' => [
+                "listeImages" => $listeImages
+            ],
         ]);
     }
 }
