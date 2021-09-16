@@ -22,10 +22,10 @@ class Category
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $nom;
+    private $name;
 
     /**
-     * @ORM\OneToMany(targetEntity=Illustration::class, mappedBy="Categorie")
+     * @ORM\OneToMany(targetEntity=Illustration::class, mappedBy="category")
      */
     private $illustrations;
 
@@ -34,19 +34,24 @@ class Category
         $this->illustrations = new ArrayCollection();
     }
 
+    public function __toString()
+    {
+        return $this->getName();
+    }
+
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getNom(): ?string
+    public function getName(): ?string
     {
-        return $this->nom;
+        return $this->name;
     }
 
-    public function setNom(string $nom): self
+    public function setName(string $name): self
     {
-        $this->nom = $nom;
+        $this->name = $name;
 
         return $this;
     }
@@ -63,7 +68,7 @@ class Category
     {
         if (!$this->illustrations->contains($illustration)) {
             $this->illustrations[] = $illustration;
-            $illustration->setCategorie($this);
+            $illustration->setCategory($this);
         }
 
         return $this;
@@ -73,8 +78,8 @@ class Category
     {
         if ($this->illustrations->removeElement($illustration)) {
             // set the owning side to null (unless already changed)
-            if ($illustration->getCategorie() === $this) {
-                $illustration->setCategorie(null);
+            if ($illustration->getCategory() === $this) {
+                $illustration->setCategory(null);
             }
         }
 

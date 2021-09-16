@@ -20,57 +20,56 @@ class Illustration
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $titre;
+    private $name;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $fichier;
+    private $imageFile;
 
     /**
      * @ORM\ManyToOne(targetEntity=Category::class, inversedBy="illustrations")
      * @ORM\JoinColumn(nullable=false)
-     *
      */
-    private $Categorie;
+    private $category;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getTitre(): ?string
+    public function getName(): ?string
     {
-        return $this->titre;
+        return $this->name;
     }
 
-    public function setTitre(string $titre): self
+    public function setName(string $name): self
     {
-        $this->titre = $titre;
+        $this->name = $name;
 
         return $this;
     }
 
-    public function getFichier(): ?string
+    public function getImageFile(): ?string
     {
-        return $this->fichier;
+        return $this->imageFile;
     }
 
-    public function setFichier(string $fichier): self
+    public function setImageFile(string $imageFile): self
     {
-        $this->fichier = $fichier;
+        $this->imageFile = $imageFile;
 
         return $this;
     }
 
-    public function getCategorie(): ?Category
+    public function getCategory(): ?Category
     {
-        return $this->Categorie;
+        return $this->category;
     }
 
-    public function setCategorie(?Category $Categorie): self
+    public function setCategory(?Category $category): self
     {
-        $this->Categorie = $Categorie;
+        $this->category = $category;
 
         return $this;
     }

@@ -6,6 +6,13 @@
     <meta name="description" content="">
     <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
     <meta name="generator" content="Hugo 0.88.1">
+      {% block stylesheets %}
+            {# 'app' must match the first argument to addEntry() in webpack.config.js #}
+            {{ encore_entry_link_tags('app') }}
+
+            <!-- Renders a link tag (if your module requires any CSS)
+                 <link rel="stylesheet" href="/build/app.css"> -->
+        {% endblock %}
     <title>Juliette Laude</title>
 
     {# <link rel="canonical" href="https://getbootstrap.com/docs/5.1/examples/album/"> #}
@@ -76,13 +83,13 @@
       </a>
       <div class="d-flex align-items-center">
         {% if app.user %}
-        <a href="{{path("account")}}">Mon compte</a>
+        <a href="{{path("account")}}" style="color: white;">Mon compte</a>
          &nbsp;| &nbsp;
-        <a href="{{path("app_logout")}}">Deconnexion</a>
+        <a href="{{path("app_logout")}}" style="color: white;">Deconnexion</a>
         {% else %}
-        <a href="{{path("app_login")}}">Connexion</a>
+        <a href="{{path("app_login")}}" style="color: white;">Connexion</a>
          &nbsp;| &nbsp;
-        <a href="{{path("register")}}">Inscription</a>  
+        <a href="{{path("register")}}" style="color: white;">Inscription</a>  
         {% endif %}
         <button 
           class="navbar-toggler" 
@@ -120,7 +127,14 @@
 
 
     <script src="{{asset("assets/js/bootstrap.bundle.min.js")}}"></script>
+     {% block javascripts %}
+            {{ encore_entry_script_tags('app') }}
 
+            <!-- Renders app.js & a webpack runtime.js file
+                <script src="/build/runtime.js" defer></script>
+                <script src="/build/app.js" defer></script>
+                See note below about the "defer" attribute -->
+        {% endblock %}
       
   </body>
 </html>
