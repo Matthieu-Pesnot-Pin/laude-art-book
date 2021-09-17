@@ -24,11 +24,15 @@ class HomeController extends AbstractController
     public function index(): Response
     {
         $listeImages = $this->entityManager->getRepository(Illustration::class)->findAllForReact();
+        $listeFinale = [];
+        foreach ($listeImages as $index => $image) {
+            $listeFinale[$index % 3][floor($index / 3)] = $image;
+        }
 
         return $this->render('home/index.html.twig', [
             "reactRoute" => "book",
             'dataFromController' => [
-                "listeImages" => $listeImages
+                "listeImages" => $listeFinale
             ],
         ]);
     }
