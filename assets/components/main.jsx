@@ -1,71 +1,169 @@
 import React, { useState } from "react";
 
-function MovableCard({ image, moveImage, position, setDraggedPosition }) {
-  const [hovered, setHovered] = useState(false);
-  let whiteColumn = {
-    height: "100%",
-    // height: "10px",
-    width: "100%",
-    // backgroundColor: "blue",
-    // backgroundRepeat: "repeat-y",
-  };
-  if (image.isEmpty) {
+const cuteRender = (
+  <lottie-player
+    src="assets/lottie/dog-walking.json"
+    background="transparent"
+    speed="1"
+    style={{ width: "160px", height: "160px", margin: "0 auto" }}
+    loop
+    autoplay
+  ></lottie-player>
+);
+
+class MovableCard extends React.Component {
+  // const [hovered, setHovered] = useState(false);
+  constructor(props) {
+    super(props);
+    this.state = {
+      whiteColumn: {
+        height: "100%",
+        width: "100%",
+      },
+      hovered: false,
+      infoDeplacement: {
+        textAlign: "center",
+        fontSize: "15px",
+      },
+      displayCutness: true,
+    };
+    this.styleFromHover = this.styleFromHover.bind(this);
+    this.setHovered = this.setHovered.bind(this);
+  }
+
+  styleFromHover() {
+    return this.state.hovered
+      ? {
+          // background: "rgba(0,0,0,0.2)",
+          transition: "top 0.2s",
+          position: "relative",
+          top: "100px",
+          zIndex: 0,
+        }
+      : {
+          // background: "rgba(0,0,0,0.0)",
+          transition: "top 0.2s",
+          position: "relative",
+          top: "0",
+          zIndex: 0,
+        };
+  }
+
+  styleFromWhiteColumnHover() {
+    return this.state.hovered
+      ? {
+          background: "rgba(0,0,0,0.2)",
+          height: "100%",
+          width: "100%",
+        }
+      : {
+          background: "rgba(0,0,0,0.0)",
+          height: "100%",
+          width: "100%",
+        };
+  }
+
+  setHovered(status) {
+    this.setState({ hovered: status });
+  }
+
+  render() {
+    if (this.props.image.isEmpty) {
+      return (
+        <div
+          style={{
+            // ...this.styleFromHover(),
+            ...this.styleFromWhiteColumnHover(),
+          }}
+          onDragEnter={(e) => {
+            this.setHovered(true);
+            e.stopPropagation();
+            e.preventDefault();
+          }}
+          onDragLeave={(e) => {
+            this.setHovered(false);
+            e.stopPropagation();
+            e.preventDefault();
+          }}
+          onDrop={(e) => {
+            this.setHovered(false);
+            this.props.moveImage(this.props.position);
+          }}
+          onDragOver={(e) => {
+            e.stopPropagation();
+            e.preventDefault();
+          }}
+        >
+          <div style={this.state.whiteColumn}></div>
+        </div>
+      );
+    }
+
     return (
-      <div
-        // className="card shadow-sm mt-3"
-        style={{
-          // background: hovered ? "rgba(0,0,0,0.4)" : "rgba(0,0,0,0)",
-          ...whiteColumn,
-        }}
-        // onDragEnter={() => {
-        //   setHovered(true);
-        // }}
-        // onDragLeave={(e) => {
-        //   setHovered(false);
-        // }}
-        onDrop={(e) => {
-          setHovered(false);
-          moveImage(position);
-        }}
-        onDragOver={(e) => {
-          e.stopPropagation();
-          e.preventDefault();
-        }}
-      >
-        <div style={whiteColumn}></div>
+      <div className={"card shadow-sm mt-3"}>
+        <div
+          style={{
+            position: "absolute",
+            top: "10px",
+            left: 0,
+            zIndex: 0,
+            width: "100%",
+            display: "flex",
+            justifyContent: "center",
+          }}
+        >
+          <img src="assets/images/pitichat.png" alt="pitichat" />
+        </div>
+        <div style={this.styleFromHover()}>
+          <img
+            src={"uploads/" + this.props.image.imageFile}
+            alt={this.props.image.name}
+            width="100%"
+          />
+          <div className="card-body">
+            <p className="card-text">{this.props.image.name}</p>
+          </div>
+        </div>
+        <div
+          draggable
+          style={{
+            position: "absolute",
+            zIndex: 10,
+            background: "rgba(0,0,0,0.0)",
+
+            top: 0,
+            left: 0,
+            height: "100%",
+            width: "100%",
+          }}
+          onDragEnter={(e) => {
+            this.setHovered(true);
+            this.setState({ displayCutness: false }, () =>
+              setTimeout(() => {
+                this.setState({ displayCutness: true });
+              }, 200)
+            );
+            e.stopPropagation();
+            e.preventDefault();
+          }}
+          onDragLeave={(e) => {
+            this.setHovered(false);
+            e.stopPropagation();
+            e.preventDefault();
+          }}
+          onDragOver={(e) => {
+            e.stopPropagation();
+            e.preventDefault();
+          }}
+          onDrop={(e) => {
+            this.setHovered(false);
+            this.props.moveImage(this.props.position);
+          }}
+          onDragStart={() => this.props.setDraggedPosition(this.props.position)}
+        ></div>
       </div>
     );
   }
-  return (
-    <div
-      className={"card shadow-sm mt-3"}
-      style={{ background: hovered ? "rgba(0,0,0,0.4)" : "rgba(0,0,0,0)" }}
-      onDragEnter={() => {
-        setHovered(true);
-      }}
-      onDragLeave={(e) => {
-        setHovered(false);
-      }}
-      onDrop={(e) => {
-        setHovered(false);
-        moveImage(position);
-      }}
-      onDragOver={(e) => {
-        e.stopPropagation();
-        e.preventDefault();
-      }}
-    >
-      <img
-        src={"uploads/" + image.imageFile}
-        alt={image.name}
-        onDragStart={() => setDraggedPosition(position)}
-        width="100%"
-      />
-      <div className="card-body">
-        <p className="card-text">{image.name}</p>
-      </div>
-    </div>
-  );
 }
 
 class Images extends React.Component {
@@ -79,30 +177,19 @@ class Images extends React.Component {
     this.moveImage = this.moveImage.bind(this);
     this.listOrEmptyCard = this.listOrEmptyCard.bind(this);
   }
-  handleDrag(e) {
-    // console.log("e", e);
-  }
-
-  handleDragOver(e) {
-    // console.log("e", e);
-  }
 
   setDraggedPosition(draggedPosition) {
     this.setState({ ...this.state, draggedPosition });
   }
 
   moveImage(landingPosition) {
-    // console.log("this.state.listeImagesTriee", this.state.listeImagesTriee);
     let draggedColumn = this.state.draggedPosition.column;
     let draggedRow = this.state.draggedPosition.row;
     let landingColumn = landingPosition.column;
     let landingRow = landingPosition.row;
 
     if (landingPosition === this.state.draggedPosition) return;
-    // if (landingPosition >= this.state.draggedPosition) landingPosition--;
     let newList = JSON.parse(JSON.stringify(this.state.listeImagesTriee));
-    // let newList = [...this.state.listeImagesTriee];
-    // console.log("newList", newList);
     newList[draggedColumn].splice(draggedRow, 1);
     newList[landingColumn].splice(
       landingRow,
@@ -120,11 +207,9 @@ class Images extends React.Component {
           image={{ isEmpty: true }}
           moveImage={this.moveImage}
           position={{ row: 0, column }}
-          // setDraggedPosition={this.setDraggedPosition}
         />
       );
     return this.state.listeImagesTriee[column].map((image, row) => (
-      // <div className="col-md-4" key={"col-" + column + "-row-" + row}>
       <MovableCard
         key={image.id}
         image={image}
@@ -153,7 +238,6 @@ class Images extends React.Component {
                   image={{ isEmpty: true }}
                   moveImage={this.moveImage}
                   position={{ row: col.length, column }}
-                  // setDraggedPosition={this.setDraggedPosition}
                 />
               ) : (
                 ""
