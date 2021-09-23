@@ -78,8 +78,10 @@ class Illustration
     {
         $output = [];
         foreach ($this as $key => $value) {
-            $output[$key] = $value;
+            if ($key == "category") $output[$key] = $value->getId();
+            else $output[$key] = $value;
         }
+
         return $output;
     }
 }

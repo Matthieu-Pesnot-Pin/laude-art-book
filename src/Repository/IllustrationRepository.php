@@ -2,8 +2,10 @@
 
 namespace App\Repository;
 
+use App\Entity\Category;
 use App\Entity\Illustration;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -14,17 +16,28 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class IllustrationRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+
+
+    protected $entityManager;
+
+    public function __construct(ManagerRegistry $registry, EntityManagerInterface $entityManager)
     {
         parent::__construct($registry, Illustration::class);
+        $this->entityManager = $entityManager;
     }
 
     public function findAllForReact()
     {
-        $output = $this->findAll();
-        foreach ($output as $index => $image) {
-            $output[$index] = $image->reactBindOutput();
+        $categories = $this->entityManager->getRepository(Category::class)->findAll();
+        $output = [];
+        foreach ($categories as $category) {
+            $output[$category->getName()] = array_map(function ($image) {
+                return $image->reactBindOutput();
+            }, $this->findBy(["category" => $category]));
         }
+        // echo '<pre>$output<br />';
+        // var_dump($output);
+        // echo '</pre>';
         return $output;
     }
 
