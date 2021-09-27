@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Category;
 use App\Entity\Illustration;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -24,6 +25,7 @@ class HomeController extends AbstractController
     public function index(): Response
     {
         $listeSections = $this->entityManager->getRepository(Illustration::class)->findAllForReact();
+        $categoryMapNameId = $this->entityManager->getRepository(Category::class)->findAllForReact();
         $output = [];
         foreach ($listeSections as $section => $listeImages) {
             $listeFinale = [];
@@ -46,7 +48,9 @@ class HomeController extends AbstractController
         return $this->render('home/index.html.twig', [
             "reactRoute" => "book",
             'dataFromController' => [
-                "listeImages" => $infosDisposition
+                // "listeImages" => $infosDisposition,
+                "listeImages" => $output,
+                "categoryMap" => $categoryMapNameId,
             ],
         ]);
     }

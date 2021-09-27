@@ -5,11 +5,13 @@ export default class MovableCard extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      dragHovered: false, // La carte est-elle survolée par une carte draggée ?
+
+      // Styles
       whiteColumn: {
         height: "100%",
         width: "100%",
       },
-      dragHovered: false,
       infoDeplacement: {
         textAlign: "center",
         fontSize: "15px",
@@ -17,6 +19,7 @@ export default class MovableCard extends React.Component {
       displayCutness: true,
       displayGrayMask: false,
     };
+
     this.styleFromDragHover = this.styleFromDragHover.bind(this);
     this.setDragHovered = this.setDragHovered.bind(this);
   }
@@ -24,14 +27,12 @@ export default class MovableCard extends React.Component {
   styleFromDragHover() {
     return this.state.dragHovered
       ? {
-          // background: "rgba(0,0,0,0.2)",
           transition: "top 0.2s",
           position: "relative",
           top: "100px",
           zIndex: 0,
         }
       : {
-          // background: "rgba(0,0,0,0.0)",
           transition: "top 0.2s",
           position: "relative",
           top: "0",
@@ -55,6 +56,7 @@ export default class MovableCard extends React.Component {
       display: "flex",
       minHeight: 100,
       width: "100%",
+      zIndex: 10,
     };
   }
 
@@ -63,6 +65,7 @@ export default class MovableCard extends React.Component {
   }
   mainCardStyle() {
     return {
+      userSelect: "none",
       // overflow: "hidden",
     };
   }
@@ -130,7 +133,10 @@ export default class MovableCard extends React.Component {
         style={this.mainCardStyle()}
         onMouseEnter={() => this.setState({ displayGrayMask: true })}
         onMouseLeave={() => this.setState({ displayGrayMask: false })}
-        onClick={this.props.displayImage.bind(this, this.props.image)}
+        onClick={() => {
+          this.props.displayImage.bind(this, this.props.image)();
+          this.setState({ displayGrayMask: false });
+        }}
       >
         <div
           style={{
@@ -156,7 +162,7 @@ export default class MovableCard extends React.Component {
           </div> */}
         </div>
         <div
-          draggable
+          draggable={this.props.modeEdition}
           style={this.styleFromHover()}
           onDragEnter={(e) => {
             this.setDragHovered(true);

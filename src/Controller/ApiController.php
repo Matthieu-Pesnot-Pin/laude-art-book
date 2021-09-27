@@ -2,13 +2,24 @@
 
 namespace App\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Entity\Category;
+use App\Entity\Illustration;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class ApiController extends AbstractController
 {
+    protected $entityManager;
+
+    public function __construct(EntityManagerInterface $entityManager)
+    {
+        $this->entityManager = $entityManager;
+    }
+
+
     #[Route('/api', name: 'api')]
     public function index(Request $request): Response
     {
@@ -23,6 +34,23 @@ class ApiController extends AbstractController
         }
 
         $success = @file_put_contents("assets/system/dispositionAccueil.json", json_encode($post->disposition), JSON_PRETTY_PRINT);
+        // return $this->json($post);
+        foreach ($post->disposition as $indexSection => $section) {
+            foreach ($section as $indexColumm => $column) {
+                foreach ($column as $indexRow => $imagePost) {
+
+                    $image = $this->entityManager->getRepository(Illustration::class)->findOneBy(['id' => $imagePost->id]);
+                    $newCategory = $this->entityManager->getRepository(Category::class)->findOneBy(['id' => $imagePost->category]);
+                    // $image = $this->entityManager->getRepository(Category::class)->findAll();
+                    // die($image->getName());
+                    // return $this->  json($image);
+                    $image->setName($imagePost->name);
+                    $image->setImageFile($imagePost->imageFile);
+                    $image->setCategory($newCategory);
+                    $this->entityManager->flush();
+                }
+            }
+        }
         $output = $success == true
             ? ["success" => "Configuration saved"]
             : ["error" => "Error while writing configuration file"];

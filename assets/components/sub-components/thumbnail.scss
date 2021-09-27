@@ -1,0 +1,94 @@
+$border-color: #000;
+$neutral-background: #CCC;
+$font-color: #000;
+$success-background-color: rgb(144, 255, 144);
+$error-background-color: rgb(255, 160, 160);
+
+.composant-Thumbnail {
+  transition-property: all;
+  transition-duration: 0.7s;
+  cursor: default;
+  max-width: 400px;
+  max-height: 500px;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+
+  position: fixed;
+
+  bottom: 3vh;
+  border-radius: 15px;
+  padding: 15px 15px 15px 15px;
+  box-shadow: 0 5px 10px 0 rgba(1, 1, 1, 0.4);
+  border: 1px solid $border-color;
+
+  &.neutral {
+    background-color: $neutral-background;
+  }
+  &.success {
+    background-color: $success-background-color;
+  }
+  &.error {
+    background-color: $error-background-color;
+  }
+  &.right {
+    right: 50px;
+  }
+  &.left {
+    left: 50px;
+  }
+  &.center {
+    left: 50%;
+    -webkit-transform: translateX(-50%);
+    -moz-transform: translateX(-50%);
+    -ms-transform: translateX(-50%);
+    -o-transform: translateX(-50%);
+    transform: translateX(-50%);
+  }
+}
+
+.texte-Thumbnail {
+  width: 100%;
+  text-align: center;
+}
+
+.frame-croix {
+  margin-left: 10px;
+  right: 3px;
+  top: 0px;
+  font-size: 0.8em;
+}
+.Thumbnail {
+  // @include typo-small-medium;
+  color: $font-color;
+  font-weight: normal;
+}
+.get-details {
+  position: relative;
+  font-weight: 700;
+  margin-left: 5px;
+  bottom: 1px;
+}
+
+.Thumbnail-enter,
+.Thumbnail-leave-to {
+  visibility: hidden;
+  bottom: -100px;
+  opacity: 0;
+}
+
+.Thumbnail-enter-active,
+.Thumbnail-leave-active {
+  transition: all 0.5s;
+}
+
+.clickable {
+  padding: 3px;
+  &:hover{
+    transition-property: background-color;
+    transition-duration: 300ms;
+    border-radius: 15px;
+    background-color: rgb(218, 219, 231);
+    cursor: pointer;
+  }
+}

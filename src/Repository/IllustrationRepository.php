@@ -31,13 +31,10 @@ class IllustrationRepository extends ServiceEntityRepository
         $categories = $this->entityManager->getRepository(Category::class)->findAll();
         $output = [];
         foreach ($categories as $category) {
-            $output[$category->getName()] = array_map(function ($image) {
+            $output[$category->getId()] = array_map(function ($image) {
                 return $image->reactBindOutput();
             }, $this->findBy(["category" => $category]));
         }
-        // echo '<pre>$output<br />';
-        // var_dump($output);
-        // echo '</pre>';
         return $output;
     }
 
