@@ -33,7 +33,14 @@ class ApiController extends AbstractController
             ]);
         }
 
-        $success = @file_put_contents("assets/system/dispositionAccueil.json", json_encode($post->disposition), JSON_PRETTY_PRINT);
+        $errorMessage = null;
+        try {
+            $success = @file_put_contents("assets/system/dispositionAccueil.json", json_encode($post->disposition), JSON_PRETTY_PRINT);
+            //code...
+        } catch (\Throwable $th) {
+            $errorMessage = $th->getMessage();
+            //throw $th;
+        }
         // return $this->json($post);
         foreach ($post->disposition as $indexSection => $section) {
             foreach ($section as $indexColumm => $column) {
@@ -53,7 +60,7 @@ class ApiController extends AbstractController
         }
         $output = $success == true
             ? ["success" => "Configuration saved"]
-            : ["error" => "Error while writing configuration file"];
+            : ["error" => "Error while writing configuration file : " . $errorMessage];
         return $this->json($output);
     }
 
