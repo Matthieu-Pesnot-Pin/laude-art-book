@@ -151,7 +151,7 @@ class ImagesGallery extends React.Component {
   render() {
     const floatingButtonStyle = (type) => ({
       position: "fixed",
-      right: type == "annuler" ? "1%" : "10%",
+      right: type == "annuler" ? "1%" : "12%",
       width: type != "edition" ? 160 : "",
       bottom: "10%",
       zIndex: 20,
