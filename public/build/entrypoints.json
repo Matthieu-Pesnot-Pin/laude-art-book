@@ -1,0 +1,14 @@
+{
+  "entrypoints": {
+    "app": {
+      "js": [
+        "/build/runtime.73ad9136.js",
+        "/build/271.061983f2.js",
+        "/build/app.47c67014.js"
+      ],
+      "css": [
+        "/build/app.f8e76340.css"
+      ]
+    }
+  }
+}
