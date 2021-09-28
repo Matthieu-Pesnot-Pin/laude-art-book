@@ -37,7 +37,9 @@ class HomeController extends AbstractController
 
         $infosDisposition = @file_get_contents("assets/system/dispositionAccueil.json");
 
-        if (!$infosDisposition) {
+        if ($infosDisposition) {
+            $infosDisposition = json_decode($infosDisposition);
+        } else {
             $listeSections = $this->entityManager->getRepository(Illustration::class)->findAllForReact();
             $infosDisposition = [];
             foreach ($listeSections as $sectionId => $listeImages) {
@@ -45,10 +47,9 @@ class HomeController extends AbstractController
                 foreach ($listeImages as $index => $image) {
                     $listeFinale[$index % 3][floor($index / 3)] = $image;
                 }
+                while (count($listeFinale) < 3) array_push($listeFinale, []);
                 $infosDisposition[$sectionId] = $listeFinale;
             }
-        } else {
-            $infosDisposition = json_decode($infosDisposition);
         }
 
         return $this->render('home/index.html.twig', [
