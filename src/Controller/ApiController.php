@@ -35,7 +35,7 @@ class ApiController extends AbstractController
 
         $errorMessage = null;
         try {
-            $success = @file_put_contents("assets/system/dispositionAccueil.json", json_encode($post->disposition), JSON_PRETTY_PRINT);
+            $success = file_put_contents("assets/system/dispositionAccueil.json", json_encode($post->disposition), JSON_PRETTY_PRINT);
             //code...
         } catch (\Throwable $th) {
             $errorMessage = $th->getMessage();
