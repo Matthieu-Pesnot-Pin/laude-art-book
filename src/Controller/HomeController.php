@@ -36,12 +36,18 @@ class HomeController extends AbstractController
         // }
 
         $infosDisposition = @file_get_contents("assets/system/dispositionAccueil.json");
-        $success = null;
 
-        if ($infosDisposition === false) {
-            $success = false;
+        if (!$infosDisposition) {
+            $listeSections = $this->entityManager->getRepository(Illustration::class)->findAllForReact();
+            $infosDisposition = [];
+            foreach ($listeSections as $sectionId => $listeImages) {
+                $listeFinale = [];
+                foreach ($listeImages as $index => $image) {
+                    $listeFinale[$index % 3][floor($index / 3)] = $image;
+                }
+                $infosDisposition[$sectionId] = $listeFinale;
+            }
         } else {
-            $success = true;
             $infosDisposition = json_decode($infosDisposition);
         }
 

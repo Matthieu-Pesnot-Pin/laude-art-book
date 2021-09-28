@@ -2,12 +2,12 @@
   "entrypoints": {
     "app": {
       "js": [
-        "/build/runtime.73ad9136.js",
-        "/build/271.061983f2.js",
-        "/build/app.47c67014.js"
+        "/build/runtime.js",
+        "/build/vendors-node_modules_material-ui_core_Fab_Fab_js-node_modules_material-ui_icons_BlockOutlined-5b9656.js",
+        "/build/app.js"
       ],
       "css": [
-        "/build/app.f8e76340.css"
+        "/build/app.css"
       ]
     }
   }

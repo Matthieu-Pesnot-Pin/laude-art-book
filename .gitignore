@@ -26,5 +26,5 @@
 npm-debug.log
 yarn-error.log
 ###< symfony/webpack-encore-bundle ###
-/public/assets/system/dispositionAccueil.json
+# /public/assets/system/dispositionAccueil.json
 /public/assets/images/
