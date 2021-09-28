@@ -24,16 +24,16 @@ class HomeController extends AbstractController
      */
     public function index(): Response
     {
-        $listeSections = $this->entityManager->getRepository(Illustration::class)->findAllForReact();
         $categoryMapNameId = $this->entityManager->getRepository(Category::class)->findAllForReact();
-        $output = [];
-        foreach ($listeSections as $section => $listeImages) {
-            $listeFinale = [];
-            foreach ($listeImages as $index => $image) {
-                $listeFinale[$index % 3][floor($index / 3)] = $image;
-            }
-            $output[$section] = $listeFinale;
-        }
+        // $listeSections = $this->entityManager->getRepository(Illustration::class)->findAllForReact();
+        // $output = [];
+        // foreach ($listeSections as $section => $listeImages) {
+        //     $listeFinale = [];
+        //     foreach ($listeImages as $index => $image) {
+        //         $listeFinale[$index % 3][floor($index / 3)] = $image;
+        //     }
+        //     $output[$section] = $listeFinale;
+        // }
 
         $infosDisposition = @file_get_contents("assets/system/dispositionAccueil.json");
         $success = null;
@@ -48,8 +48,8 @@ class HomeController extends AbstractController
         return $this->render('home/index.html.twig', [
             "reactRoute" => "book",
             'dataFromController' => [
-                // "listeImages" => $infosDisposition,
-                "listeImages" => $output,
+                "listeImages" => $infosDisposition,
+                // "listeImages" => $output,
                 "categoryMap" => $categoryMapNameId,
             ],
         ]);
