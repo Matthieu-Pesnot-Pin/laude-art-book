@@ -39,6 +39,15 @@ class HomeController extends AbstractController
 
         if ($infosDisposition) {
             $infosDisposition = json_decode($infosDisposition);
+            $listeSections = $this->entityManager->getRepository(Illustration::class)->findAll();
+            $listeImagesFichierJson = [];
+            foreach ($infosDisposition as $sectionId => $listeImages) {
+                foreach ($listeImages as $index => $image) {
+                    $listeImagesFichierJson[] = $image;
+                }
+            }
+            if (count($listeImagesFichierJson) != count())
+
         } else {
             $listeSections = $this->entityManager->getRepository(Illustration::class)->findAllForReact();
             $infosDisposition = [];
