@@ -2,15 +2,15 @@
 
 namespace App\Entity;
 
-use App\Repository\IllustrationRepository;
+use App\Repository\SectionRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass=IllustrationRepository::class)
+ * @ORM\Entity(repositoryClass=SectionRepository::class)
  */
-class Illustration
+class Section
 {
     /**
      * @ORM\Id
@@ -25,18 +25,18 @@ class Illustration
     private $name;
 
     /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $imageFile;
-
-    /**
-     * @ORM\ManyToOne(targetEntity=Category::class, inversedBy="illustrations")
+     * @ORM\ManyToOne(targetEntity=Page::class, inversedBy="sections")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $category;
+    private $page;
 
     /**
-     * @ORM\OneToMany(targetEntity=Position::class, mappedBy="illustration", orphanRemoval=true)
+     * @ORM\Column(type="integer")
+     */
+    private $orderInPage;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Position::class, mappedBy="section", orphanRemoval=true)
      */
     private $positions;
 
@@ -62,39 +62,28 @@ class Illustration
         return $this;
     }
 
-    public function getImageFile(): ?string
+    public function getPage(): ?Page
     {
-        return $this->imageFile;
+        return $this->page;
     }
 
-    public function setImageFile(string $imageFile): self
+    public function setPage(?Page $page): self
     {
-        $this->imageFile = $imageFile;
+        $this->page = $page;
 
         return $this;
     }
 
-    public function getCategory(): ?Category
+    public function getOrderInPage(): ?int
     {
-        return $this->category;
+        return $this->orderInPage;
     }
 
-    public function setCategory(?Category $category): self
+    public function setOrderInPage(int $orderInPage): self
     {
-        $this->category = $category;
+        $this->orderInPage = $orderInPage;
 
         return $this;
-    }
-
-    public function reactBindOutput()
-    {
-        $output = [];
-        foreach ($this as $key => $value) {
-            if ($key == "category") $output[$key] = $value->getId();
-            else $output[$key] = $value;
-        }
-
-        return $output;
     }
 
     /**
@@ -109,7 +98,7 @@ class Illustration
     {
         if (!$this->positions->contains($position)) {
             $this->positions[] = $position;
-            $position->setIllustration($this);
+            $position->setSection($this);
         }
 
         return $this;
@@ -119,8 +108,8 @@ class Illustration
     {
         if ($this->positions->removeElement($position)) {
             // set the owning side to null (unless already changed)
-            if ($position->getIllustration() === $this) {
-                $position->setIllustration(null);
+            if ($position->getSection() === $this) {
+                $position->setSection(null);
             }
         }
 

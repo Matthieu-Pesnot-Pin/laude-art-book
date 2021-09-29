@@ -4,6 +4,8 @@ namespace App\Controller\Admin;
 
 use App\Entity\Category;
 use App\Entity\Illustration;
+use App\Entity\Page;
+use App\Entity\Section;
 use App\Entity\User;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
@@ -33,6 +35,8 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linktoCrud('Utilisateurs', 'fa fa-user', User::class);
         yield MenuItem::linktoCrud('Catégories', 'fa fa-list', Category::class);
         yield MenuItem::linktoCrud('Illustrations', 'fa fa-image', Illustration::class);
+        yield MenuItem::linktoCrud('Pages', 'fa fa-image', Page::class);
+        yield MenuItem::linktoCrud('Sections', 'fa fa-image', Section::class);
         // yield MenuItem::linktoCrud('Categories', 'fa fa-list', Category::class);
         // yield MenuItem::linkToCrud('The Label', 'fas fa-list', EntityClass::class);
     }
