@@ -65,7 +65,6 @@ class HomeController extends AbstractController
             "reactRoute" => "book",
             'dataFromController' => [
                 "listeImages" => $infosDisposition,
-                // "listeImages" => $output,
                 "categoryMap" => $categoryMapNameId,
             ],
         ]);
