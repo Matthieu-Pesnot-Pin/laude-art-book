@@ -46,7 +46,7 @@ class HomeController extends AbstractController
                     $listeImagesFichierJson[] = $image;
                 }
             }
-            if (count($listeImagesFichierJson) != count())
+            // if (count($listeImagesFichierJson) != count())
 
         } else {
             $listeSections = $this->entityManager->getRepository(Illustration::class)->findAllForReact();
