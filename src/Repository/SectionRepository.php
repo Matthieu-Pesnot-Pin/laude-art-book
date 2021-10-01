@@ -3,8 +3,9 @@
 namespace App\Repository;
 
 use App\Entity\Section;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
  * @method Section|null find($id, $lockMode = null, $lockVersion = null)
@@ -14,9 +15,26 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class SectionRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+
+    protected $entityManager;
+
+    public function __construct(ManagerRegistry $registry, EntityManagerInterface $entityManager)
     {
         parent::__construct($registry, Section::class);
+        $this->entityManager = $entityManager;
+    }
+
+    public function findAllOnPageForReact($page)
+    {
+        $sections = $this->entityManager->getRepository(Section::class)->findBy(["page" => $page]);
+        $output = [];
+        foreach ($sections as $section) {
+            $output[$section->getId()] = $section->getName();
+        }
+        // echo '<pre>$output<br />';
+        // var_dump($output);
+        // echo '</pre>';
+        return $output;
     }
 
     // /**

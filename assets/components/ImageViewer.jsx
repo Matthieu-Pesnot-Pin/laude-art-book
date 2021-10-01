@@ -11,14 +11,12 @@ const transitionStyles = {
 export default class ImageViewer extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      show: false,
-    };
-    this.updateShow = this.updateShow.bind(this);
+    this.state = {};
   }
 
   grayMaskStyle() {
     return {
+      display: this.props.visible ? "block" : "none",
       position: "fixed",
       top: 0,
       bottom: 0,
@@ -42,14 +40,7 @@ export default class ImageViewer extends React.Component {
     };
   }
 
-  updateShow() {
-    if (this.props.visible)
-      setTimeout(() => this.setState({ show: true }), 100);
-    else this.setState({ show: false });
-  }
-
   render() {
-    // this.updateShow();
     return (
       <Transition in={this.props.visible} timeout={500}>
         {(state) => (

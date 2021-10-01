@@ -115,7 +115,7 @@ export default class MovableCard extends React.Component {
           }}
           onDrop={(e) => {
             this.setDragHovered(false);
-            this.props.moveImage(this.props.position);
+            this.props.moveImage(this.props.image);
           }}
           onDragOver={(e) => {
             e.stopPropagation();
@@ -185,9 +185,9 @@ export default class MovableCard extends React.Component {
           }}
           onDrop={(e) => {
             this.setDragHovered(false);
-            this.props.moveImage(this.props.position);
+            this.props.moveImage(this.props.image);
           }}
-          onDragStart={() => this.props.setDraggedPosition(this.props.position)}
+          onDragStart={() => this.props.setDraggedPosition(this.props.image)}
         >
           {this.props.image.name}
         </div>
